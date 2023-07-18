@@ -39,17 +39,16 @@ export function useUserPoolInfo(strategyType) {
     if (!data?.poolUsers) {
       return;
     }
-
+    let tempInvestment = data?.poolUsers?.[0]?.deposit
+      ? data?.poolUsers?.[0]?.deposit
+      : "0";
+    let tempInOrder = data?.poolUsers?.[0]?.fiatBalance
+      ? data?.poolUsers?.[0]?.fiatBalance
+      : "0";
     setUserData({
       totalOrders: data?.poolUsers?.[0]?.ordersCount,
-      totalInvestedUSDT: Web3.utils.fromWei(
-        data?.poolUsers?.[0]?.deposit.toString(),
-        "ether"
-      ),
-      inOrderUSDT: Web3.utils.fromWei(
-        data?.poolUsers?.[0]?.fiatBalance.toString(),
-        "ether"
-      ),
+      totalInvestedUSDT: Web3.utils.fromWei(tempInvestment.toString(), "ether"),
+      inOrderUSDT: Web3.utils.fromWei(tempInOrder.toString(), "ether"),
       tokensAccumulated: data?.poolUsers?.[0]?.tokenBalance,
     });
   }, [data]);
